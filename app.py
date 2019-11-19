@@ -1,10 +1,12 @@
-from os import environ as env
-import multiprocessing
+from flask import Flask
 
-PORT = int(env.get("PORT", 8080))
-DEBUG_MODE = int(env.get("DEBUG_MODE", 1))
+import config
 
-# Gunicorn config
-bind = ":" + str(PORT)
-workers = multiprocessing.cpu_count() * 2 + 1
-threads = 2 * multiprocessing.cpu_count()
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=config.PORT, debug=config.DEBUG_MODE)
