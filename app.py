@@ -172,7 +172,7 @@ def get_final_output(pred, classes):
 
 import config
 app = Flask(__name__) 
-@app.route('/',methods=['POST'])
+@app.route("/")
 def predict():
   data = request.get_json(force=True)
   text = data["text"]
