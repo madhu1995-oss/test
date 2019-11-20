@@ -72,7 +72,7 @@ def max_length(words):
 word_tokenizer = create_tokenizer(cleaned_words)
 vocab_size = len(word_tokenizer.word_index) + 1
 max_length = max_length(cleaned_words)
-print"3")
+print("3")
 
 #print("Vocab Size = %d and Maximum length = %d" % (vocab_size, max_length))
 
