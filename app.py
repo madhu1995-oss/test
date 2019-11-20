@@ -175,7 +175,8 @@ app = Flask(__name__)
 def predict():
   text = "Go to Language List"
   pred = predictions(text)
-  return get_final_output(pred, unique_intent)
+  a=get_final_output(pred, unique_intent)
+  return jsonify(a)
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=config.PORT, debug=config.DEBUG_MODE)
