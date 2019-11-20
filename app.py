@@ -184,10 +184,7 @@ def predict():
   #text = data["text"]
   text = "Go to Language List"
   pred = predictions(text)
-  print("9")
-  return pred
   a=get_final_output(pred, unique_intent)
-  print("10")
   return jsonify(a)
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=config.PORT, debug=config.DEBUG_MODE)
