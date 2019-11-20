@@ -34,16 +34,17 @@ def load_dataset(filename):
   return (intent, unique_intent, sentences)
 
 intent, unique_intent, sentences = load_dataset("indus_english.csv")
+print("1")
 
 #unique_intent
 
-print(sentences[:5])
+#print(sentences[:5])
 
 #nltk.download("stopwords")
 #nltk.download("punkt")
 
 #define stemmer
-stemmer = LancasterStemmer()
+#stemmer = LancasterStemmer()
 
 def cleaning(sentences):
   words = []
@@ -56,8 +57,9 @@ def cleaning(sentences):
   return words
 
 cleaned_words = cleaning(sentences)
-print(len(cleaned_words))
-print(cleaned_words[:2])
+print("2")
+#print(len(cleaned_words))
+#print(cleaned_words[:2])
 
 def create_tokenizer(words, filters = '!"#$%&()*+,-./:;<=>?@[\]^_`{|}~'):
   token = Tokenizer(filters = filters)
@@ -70,48 +72,51 @@ def max_length(words):
 word_tokenizer = create_tokenizer(cleaned_words)
 vocab_size = len(word_tokenizer.word_index) + 1
 max_length = max_length(cleaned_words)
+print"3")
 
-print("Vocab Size = %d and Maximum length = %d" % (vocab_size, max_length))
+#print("Vocab Size = %d and Maximum length = %d" % (vocab_size, max_length))
 
 def encoding_doc(token, words):
   return(token.texts_to_sequences(words))
 
 encoded_doc = encoding_doc(word_tokenizer, cleaned_words)
+print("4")
 
 def padding_doc(encoded_doc, max_length):
   return(pad_sequences(encoded_doc, maxlen = max_length, padding = "post"))
 
 padded_doc = padding_doc(encoded_doc, max_length)
+print("5")
 
-padded_doc[:5]
+#padded_doc[:5]
 
-print("Shape of padded docs = ",padded_doc.shape)
+#print("Shape of padded docs = ",padded_doc.shape)
 
 #tokenizer with filter changed
 output_tokenizer = create_tokenizer(unique_intent, filters = '!"#$%&()*+,-/:;<=>?@[\]^`{|}~')
 
-output_tokenizer.word_index
+#output_tokenizer.word_index
 
 encoded_output = encoding_doc(output_tokenizer, intent)
 
 encoded_output = np.array(encoded_output).reshape(len(encoded_output), 1)
 
-encoded_output.shape
+#encoded_output.shape
+print("6")
 
 def one_hot(encode):
   o = OneHotEncoder(sparse = False)
   return(o.fit_transform(encode))
 
 output_one_hot = one_hot(encoded_output)
+print("7")
 
-output_one_hot.shape
+#output_one_hot.shape
+#from sklearn.model_selection import train_test_split
+#train_X, val_X, train_Y, val_Y = train_test_split(padded_doc, output_one_hot, shuffle = True, test_size = 0.2)
 
-from sklearn.model_selection import train_test_split
-
-train_X, val_X, train_Y, val_Y = train_test_split(padded_doc, output_one_hot, shuffle = True, test_size = 0.2)
-
-print("Shape of train_X = %s and train_Y = %s" % (train_X.shape, train_Y.shape))
-print("Shape of val_X = %s and val_Y = %s" % (val_X.shape, val_Y.shape))
+#print("Shape of train_X = %s and train_Y = %s" % (train_X.shape, train_Y.shape))
+#print("Shape of val_X = %s and val_Y = %s" % (val_X.shape, val_Y.shape))
 
 def create_model(vocab_size, max_length):
   model = Sequential()
@@ -127,10 +132,11 @@ def create_model(vocab_size, max_length):
 model = create_model(vocab_size, max_length)
 
 model.compile(loss = "categorical_crossentropy", optimizer = "adam", metrics = ["accuracy"])
-model.summary()
+#model.summary()
 
 filename = 'model.h5'
 checkpoint = ModelCheckpoint(filename, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+print("8")
 
 #hist = model.fit(train_X, train_Y, epochs = 10, batch_size = 32, validation_data = (val_X, val_Y), callbacks = [checkpoint])
 
@@ -141,7 +147,7 @@ def predictions(text):
   test_word = word_tokenize(clean)
   test_word = [w.lower() for w in test_word]
   test_ls = word_tokenizer.texts_to_sequences(test_word)
-  print(test_word)
+  #print(test_word)
   #Check for unknown words
   if [] in test_ls:
     test_ls = list(filter(None, test_ls))
@@ -178,7 +184,10 @@ def predict():
   #text = data["text"]
   text = "Go to Language List"
   pred = predictions(text)
+  print("9")
+  return pred
   a=get_final_output(pred, unique_intent)
+  print("10")
   return jsonify(a)
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=config.PORT, debug=config.DEBUG_MODE)
