@@ -174,10 +174,10 @@ import config
 app = Flask(__name__) 
 @app.route("/")
 def predict():
-  data = request.get_json(force=True)
-  text = data["text"]
-  pred = predictions(text)
-  a=get_final_output(pred, unique_intent)
+  #data = request.get_json(force=True)
+  #text = data["text"]
+  #pred = predictions(text)
+  #a=get_final_output(pred, unique_intent)
   return "hello"
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=config.PORT, debug=config.DEBUG_MODE)
