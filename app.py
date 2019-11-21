@@ -328,7 +328,7 @@ app = Flask(__name__)
 @app.route('/api'methods=['POST'])
 def predict():
     data = request.get_json(force=True)
-    pred = predictions("Go to Language Store")
+    pred = predictions(data["text"])
     a=get_final_output(pred, unique_intent)
     return jsonify(a)
 if __name__ == '__main__':
