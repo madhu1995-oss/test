@@ -4,3 +4,5 @@ keras
 sklearn
 nltk
 pandas
+tensorflow
+matplotlib
