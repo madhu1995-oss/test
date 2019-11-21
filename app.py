@@ -325,7 +325,7 @@ def get_final_output(pred, classes):
 # In[43]:
 
 app = Flask(__name__)
-@app.route('/api'methods=['POST'])
+@app.route('/api',methods=['POST'])
 def predict():
     data = request.get_json(force=True)
     pred = predictions(data["text"])
