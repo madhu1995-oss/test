@@ -325,12 +325,12 @@ def get_final_output(pred, classes):
 # In[43]:
 
 app = Flask(__name__)
-@app.route('/api')
+@app.route('/api'methods=['POST'])
 def predict():
-    #data = request.get_json(force=True)
+    data = request.get_json(force=True)
     pred = predictions("Go to Language Store")
     a=get_final_output(pred, unique_intent)
-    return "hello"
+    return jsonify(a)
 if __name__ == '__main__':
     app.run(port=9000, debug=True)
 
